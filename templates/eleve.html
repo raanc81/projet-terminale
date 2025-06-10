@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Informations de l'élève</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+        .photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 20px auto;
+        }
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: {% if peut_sortir %}green{% else %}red{% endif %};
+        }
+        .emploi-du-temps {
+            background-color: #eee;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            text-align: left;
+            display: inline-block;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bonjour {{ nom }}</h1>
+        {% if photo %}
+            <img src="{{ photo }}" class="photo">
+        {% endif %}
+        <div class="message">
+            {% if peut_sortir %}
+                Tu peux sortir {% if heure_sortie %} (après {{ heure_sortie }}){% endif %}
+            {% else %}
+                Tu ne peux pas sortir
+            {% endif %}
+        </div>
+        <div class="emploi-du-temps">
+            <strong>Emploi du temps :</strong><br>
+            {% for ligne in emploi_du_temps.split(',') %}
+                {{ ligne.strip() }}<br>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('index') }}" class="btn">Scanner un autre QR</a>
+    </div>
+</body>
+</html>
